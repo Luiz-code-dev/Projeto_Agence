@@ -31,16 +31,16 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 
                 /*Ativando a permissão para acesso a página incial do sistema EX: sistema.com.br/index*/
                 .disable().authorizeRequests().antMatchers("/").permitAll()
-                .antMatchers("/index").permitAll()
+                .antMatchers("/v1/index").permitAll()
 
                 /*URL de Logout - Redireciona após o user deslogar do sistema*/
-                .anyRequest().authenticated().and().logout().logoutSuccessUrl("/index")
+                .anyRequest().authenticated().and().logout().logoutSuccessUrl("/v1/index")
 
                 /*Maperia URL de Logout e insvalida o usuário*/
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutRequestMatcher(new AntPathRequestMatcher("/v1/logout"))
 
                 /*Filtra requisições de login para autenticação*/
-                .and().addFilterBefore(new JWTLoginFilter("/auth", authenticationManager())
+                .and().addFilterBefore(new JWTLoginFilter("/v1/auth", authenticationManager())
                         , UsernamePasswordAuthenticationFilter.class)
 
                 /*Filtra demais requisições paa verificar a presenção do TOKEN JWT no HEADER HTTP*/
