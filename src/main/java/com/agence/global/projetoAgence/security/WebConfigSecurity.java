@@ -40,7 +40,7 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 
                 /*Filtra requisições de login para autenticação*/
-                .and().addFilterBefore(new JWTLoginFilter("/login", authenticationManager())
+                .and().addFilterBefore(new JWTLoginFilter("/auth", authenticationManager())
                         , UsernamePasswordAuthenticationFilter.class)
 
                 /*Filtra demais requisições paa verificar a presenção do TOKEN JWT no HEADER HTTP*/

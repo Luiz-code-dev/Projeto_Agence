@@ -9,7 +9,7 @@ public class ProjetoAgenceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetoAgenceApplication.class, args);
-		System.out.println(new BCryptPasswordEncoder().encode("123"));
+		System.out.println(new BCryptPasswordEncoder().encode("fleetmg@!"));
 	}
 
 }
