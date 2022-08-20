@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FuncionarioRepository extends JpaRepository<Funcionario, Integer> {
 
-    Funcionario findByUsername(String username);
+    Funcionario findByNome(String nome);
 
     Funcionario findByMatricula(Integer matricula);
 }
