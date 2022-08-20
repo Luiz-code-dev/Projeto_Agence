@@ -40,10 +40,16 @@ public class JWTTokenAutenticacaoService {
                 .signWith(SignatureAlgorithm.HS512, SECRET).compact();//compactação e algoritimos de geração
 
         /*Junto o token com o prefixo*/
-        String token = TOKEN_PREFIX + " " + JWT; //Bearea
+        String token = TOKEN_PREFIX + " " + JWT; //Bearer
 
         /*Adiciona no cabeçalho http*/
         response.addHeader(HEADER_STRING, token);
+
+        /*Liberando resposta para portas diferentes que usam a API ou caso clientes web*/
+        liberacaoCors(response);
+
+        /*Escreve token como responsta no corpo http*/
+        response.getWriter().write("{\"Authorization\": \""+token+"\"}");
 
     }
 
@@ -60,7 +66,7 @@ public class JWTTokenAutenticacaoService {
                     .getBody().getSubject();
             if (user != null) {
                 Usuario usuario = ApplicationContextLoad.getApplicationContext()
-                        .getBean(UsuarioRepository.class).findByUserByLogin(user);
+                        .getBean(UsuarioRepository.class).findUserByLogin(user);
                 /*retornar o usuario logado*/
                 if (usuario != null) {
                     return  new UsernamePasswordAuthenticationToken(usuario.getLogin(),
@@ -71,4 +77,24 @@ public class JWTTokenAutenticacaoService {
         }
             return null; //Não autorizado
         }
+
+    private void liberacaoCors(HttpServletResponse response) {
+
+        if (response.getHeader("Access-Control-Allow-Origin") == null) {
+            response.addHeader("Access-Control-Allow-Origin", "*");
+        }
+
+        if (response.getHeader("Access-Control-Allow-Headers") == null) {
+            response.addHeader("Access-Control-Allow-Headers", "*");
+        }
+
+
+        if (response.getHeader("Access-Control-Request-Headers") == null) {
+            response.addHeader("Access-Control-Request-Headers", "*");
+        }
+
+        if(response.getHeader("Access-Control-Allow-Methods") == null) {
+            response.addHeader("Access-Control-Allow-Methods", "*");
+        }
+    }
 }
