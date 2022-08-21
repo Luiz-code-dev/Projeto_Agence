@@ -15,6 +15,8 @@ public class FuncionarioDAOImpl implements FuncionarioDAO{
     private EntityManager entityManager;
 
 
+
+
     @Transactional
     public void insertWithQuery(Funcionario funcionario) {
         entityManager.createNativeQuery("INSERT INTO funcionario (id, nome, matricula) VALUES (?,?,?)")
@@ -23,4 +25,5 @@ public class FuncionarioDAOImpl implements FuncionarioDAO{
                 .setParameter(3, funcionario.getMatricula())
                 .executeUpdate();
     }
+
 }
