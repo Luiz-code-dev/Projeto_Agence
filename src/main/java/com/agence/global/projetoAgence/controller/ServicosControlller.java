@@ -5,6 +5,7 @@ import com.agence.global.projetoAgence.dao.CarroDAO;
 import com.agence.global.projetoAgence.dao.FuncionarioDAO;
 import com.agence.global.projetoAgence.entidades.Carro;
 import com.agence.global.projetoAgence.entidades.Funcionario;
+import com.agence.global.projetoAgence.repository.CarroRepository;
 import com.agence.global.projetoAgence.repository.FuncionarioRepository;
 import com.agence.global.projetoAgence.service.CarroService;
 import com.agence.global.projetoAgence.service.FuncionarioService;
@@ -14,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -88,5 +88,32 @@ public class ServicosControlller {
         carroService.deleteById(idCarro.intValue());
 
         return new ResponseEntity<String>("Carro deletado com sucesao", HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/carros", produces = "application/json")
+    public ResponseEntity<List<Carro>> carros () {
+        try {
+        List<Carro> list = (List<Carro>) ApplicationContextLoad.getApplicationContext()
+                .getBean(CarroRepository.class).findAll();
+
+            return new ResponseEntity<List<Carro>>(list, HttpStatus.OK);
+
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    @GetMapping(value = "/carros/retirados", produces = "application/json")
+    public ResponseEntity<List<Carro>> carrosEmUso () {
+        try {
+            List<Carro> list = (List<Carro>) ApplicationContextLoad.getApplicationContext()
+                    .getBean(CarroRepository.class).findAllByCarroUsado();
+
+            return new ResponseEntity<List<Carro>>(list,HttpStatus.OK);
+
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

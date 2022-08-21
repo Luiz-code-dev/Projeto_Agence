@@ -6,4 +6,6 @@ public interface CarroDAO {
 
 
     public void insertWithQuery(Carro carro);
+
+    /*public List<Carro> ListarCarroUsado();*/
 }

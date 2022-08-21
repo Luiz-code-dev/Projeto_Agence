@@ -19,6 +19,8 @@ public class Carro {
 
     private Date dataFabricacao;
 
+    private Boolean carroUsado;
+
 
 
     public Integer getId() {
@@ -51,5 +53,13 @@ public class Carro {
 
     public void setDataFabricacao(Date dataFabricacao) {
         this.dataFabricacao = dataFabricacao;
+    }
+
+    public Boolean getCarroUsado() {
+        return carroUsado;
+    }
+
+    public void setCarroUsado(Boolean carroUsado) {
+        this.carroUsado = carroUsado;
     }
 }
