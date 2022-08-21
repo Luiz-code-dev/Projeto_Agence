@@ -1,7 +1,9 @@
 package com.agence.global.projetoAgence.controller;
 
 import com.agence.global.projetoAgence.ApplicationContextLoad;
+import com.agence.global.projetoAgence.dao.CarroDAO;
 import com.agence.global.projetoAgence.dao.FuncionarioDAO;
+import com.agence.global.projetoAgence.entidades.Carro;
 import com.agence.global.projetoAgence.entidades.Funcionario;
 import com.agence.global.projetoAgence.repository.FuncionarioRepository;
 import com.agence.global.projetoAgence.service.FuncionarioService;
@@ -23,6 +25,8 @@ public class ServicosControlller {
 
     @Autowired
     private FuncionarioService funcionarioService;
+    @Autowired
+    private CarroDAO carroDAO;
 
 
     @PostMapping(value = "/funcionarios", produces = "application/json")
@@ -38,12 +42,10 @@ public class ServicosControlller {
         }
     }
 
-    @DeleteMapping(value = "/funcionarios/{idFuncionario}"
-    )
-    @ResponseBody
-    public ResponseEntity<String> delete(@RequestParam Long id){
+    @DeleteMapping(value = "/funcionarios/{idFuncionario}")
+    public ResponseEntity<String> delete(@PathVariable Long idFuncionario){
 
-        funcionarioService.deleteById(id.intValue());
+        funcionarioService.deleteById(idFuncionario.intValue());
 
         return new ResponseEntity<String>("Funcionario deletado com sucesao", HttpStatus.OK);
     }
@@ -56,6 +58,20 @@ public class ServicosControlller {
                 .getBean(FuncionarioRepository.class).findAll();
 
             return new ResponseEntity<List<Funcionario>>(list, HttpStatus.OK);
+
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+    @PostMapping(value = "/carros", produces = "application/json")
+    public ResponseEntity<Carro> cadastrarCarros(@RequestBody @Valid Carro  carro ) {
+        try {
+            if (carro != null) {
+                carroDAO.insertWithQuery(carro);
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
 
         } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
