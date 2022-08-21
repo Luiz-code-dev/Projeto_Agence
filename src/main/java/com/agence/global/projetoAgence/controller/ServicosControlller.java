@@ -1,6 +1,7 @@
 package com.agence.global.projetoAgence.controller;
 
 import com.agence.global.projetoAgence.ApplicationContextLoad;
+import com.agence.global.projetoAgence.dao.FuncionarioDAO;
 import com.agence.global.projetoAgence.entidades.Funcionario;
 import com.agence.global.projetoAgence.entidades.Usuario;
 import com.agence.global.projetoAgence.repository.FuncionarioRepository;
@@ -19,47 +20,24 @@ import java.util.Optional;
 public class ServicosControlller {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
-
-//    @Autowired
-//    private FuncionarioRepository funcionarioRepository;
-
-
-    @GetMapping(value = "{id}", produces = "application/json")
-    public ResponseEntity<Usuario> init(@PathParam(value = "id") Long id){
-
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
-
-        return new ResponseEntity<>(usuario.get(), HttpStatus.OK);
-
-
-
-    }
+    private FuncionarioDAO funcionarioDAO;
 
     @PostMapping(value = "/funcionarios", produces = "application/json")
     public ResponseEntity<Funcionario> cadastrar(@RequestBody @Valid Funcionario funcionario) {
         try {
 
-            if (funcionario.getNome() != null && !funcionario.getNome().isEmpty()) {
-                funcionario =  ApplicationContextLoad.getApplicationContext()
-                        .getBean(FuncionarioRepository.class).findByNome(funcionario.getNome());
-            /*funcionarioRepository.findByUsername(funcionario.getNome());*/
-            }
-           /* if (funcionario.getMatricula() != null) {
-                funcionario = ApplicationContextLoad.getApplicationContext()
-                        .getBean(FuncionarioRepository.class).findByMatricula(funcionario.getMatricula());
-                       *//* funcionarioRepository.findByMatricula(funcionario.getMatricula());*//*
-            }*/
-            Funcionario funcionarioSalvo = ApplicationContextLoad.getApplicationContext()
-                    .getBean(FuncionarioRepository.class).save(funcionario);
+            if (funcionario != null) {
 
-            return new ResponseEntity<Funcionario>(funcionarioSalvo, HttpStatus.OK);
+                funcionarioDAO.insertWithQuery(funcionario);
+
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+
         } catch (RuntimeException e) {
 
-            return null;
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
 
     }
-
 }
