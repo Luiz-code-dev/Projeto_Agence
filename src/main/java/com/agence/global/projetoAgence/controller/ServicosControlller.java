@@ -6,6 +6,7 @@ import com.agence.global.projetoAgence.dao.FuncionarioDAO;
 import com.agence.global.projetoAgence.entidades.Carro;
 import com.agence.global.projetoAgence.entidades.Funcionario;
 import com.agence.global.projetoAgence.repository.FuncionarioRepository;
+import com.agence.global.projetoAgence.service.CarroService;
 import com.agence.global.projetoAgence.service.FuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,9 @@ public class ServicosControlller {
     private FuncionarioService funcionarioService;
     @Autowired
     private CarroDAO carroDAO;
+
+    @Autowired
+    private CarroService carroService;
 
 
     @PostMapping(value = "/funcionarios", produces = "application/json")
@@ -78,4 +82,11 @@ public class ServicosControlller {
         }
     }
 
+     @DeleteMapping(value = "/carros/{idCarro}")
+    public ResponseEntity<String> deleteCarros(@PathVariable Long idCarro){
+
+        carroService.deleteById(idCarro.intValue());
+
+        return new ResponseEntity<String>("Carro deletado com sucesao", HttpStatus.OK);
+    }
 }
