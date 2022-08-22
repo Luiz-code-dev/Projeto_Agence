@@ -16,12 +16,13 @@ public class CarroDAOImpl implements CarroDAO{
 
     @Transactional
     public void insertWithQuery(Carro carro) {
-        entityManager.createNativeQuery("INSERT INTO carro (id, modelo, marca, data_fabricacao,carro_usado) VALUES (?,?,?,?,?)")
+        entityManager.createNativeQuery("INSERT INTO carro (id, modelo, marca, data_fabricacao,carro_usado, nome_funcionario) VALUES (?,?,?,?,?,?)")
                 .setParameter(1, carro.getId())
                 .setParameter(2, carro.getModelo())
                 .setParameter(3, carro.getMarca())
                 .setParameter(4, carro.getDataFabricacao())
                 .setParameter(5, carro.getCarroUsado())
+                .setParameter(6, carro.getNomeFuncionario())
                 .executeUpdate();
     }
 

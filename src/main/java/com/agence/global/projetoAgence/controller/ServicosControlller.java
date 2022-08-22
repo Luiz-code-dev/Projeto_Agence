@@ -116,4 +116,15 @@ public class ServicosControlller {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping(value = "/viagem/{idFuncionario}/{idCarro}", produces = "application/json")
+    public ResponseEntity retirarCarroFuncionario(@PathVariable Integer idFuncionario, @PathVariable Integer idCarro) {
+        try {
+
+            return new ResponseEntity("idFuncionario :" + idFuncionario + " idCarro :" + idCarro, HttpStatus.OK);
+
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

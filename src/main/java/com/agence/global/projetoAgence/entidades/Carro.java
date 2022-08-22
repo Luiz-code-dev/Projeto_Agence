@@ -21,6 +21,7 @@ public class Carro {
 
     private Boolean carroUsado;
 
+    private String nomeFuncionario;
 
 
     public Integer getId() {
@@ -61,5 +62,13 @@ public class Carro {
 
     public void setCarroUsado(Boolean carroUsado) {
         this.carroUsado = carroUsado;
+    }
+
+    public String getNomeFuncionario() {
+        return nomeFuncionario;
+    }
+
+    public void setNomeFuncionario(String nomeFuncionario) {
+        this.nomeFuncionario = nomeFuncionario;
     }
 }
